@@ -1,0 +1,6 @@
+import React,{createContext,useContext,useState,forwardRef} from 'react'
+const Ctx=createContext()
+export function Tabs({defaultValue='board',value,onValueChange,children}){const [v,setV]=useState(value??defaultValue);const val=value??v;const setVal=onValueChange??setV;return <Ctx.Provider value={{value:val,setValue:setVal}}>{children}</Ctx.Provider>}
+export const TabsList = forwardRef(function TabsList({className='',...props}, ref){return <div ref={ref} className={`border-b bg-white ${className}`} {...props}/>})
+export function TabsTrigger({value,children,...props}){const {value:cur,setValue}=useContext(Ctx);const a=cur===value;return <button className={`px-3 py-2 text-sm border-b-2 ${a?'border-slate-900 font-medium':'border-transparent text-slate-500 hover:text-slate-800'}`} onClick={()=>setValue(value)} {...props}>{children}</button>}
+export function TabsContent({value,children,...props}){const {value:cur}=useContext(Ctx);if(cur!==value)return null;return <div {...props}>{children}</div>}
