@@ -58,12 +58,23 @@ error_exit() {
 # Check if running as root
 check_root() {
     if [ "$EUID" -eq 0 ]; then
-        log "WARN" "Running as root. This is not recommended for security reasons."
-        read -p "Continue anyway? (y/N): " -n 1 -r
-        echo
-        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-            exit 1
+        log "INFO" "Running as root. This is required for system installation."
+        # For automated installation, we proceed without prompting
+        if [ -t 0 ]; then
+            # Interactive mode - ask for confirmation
+            read -p "Continue with installation? (y/N): " -n 1 -r
+            echo
+            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+                exit 1
+            fi
+        else
+            # Non-interactive mode (piped from curl) - proceed automatically
+            log "INFO" "Non-interactive mode detected. Proceeding with installation."
         fi
+    else
+        log "ERROR" "This script must be run as root for system installation."
+        log "INFO" "Please run: sudo $0"
+        exit 1
     fi
 }
 

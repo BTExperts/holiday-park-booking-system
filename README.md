@@ -4,6 +4,7 @@ A comprehensive booking management system for holiday park accommodation, built 
 
 ## 🚀 Quick Start
 
+### Development Setup
 ```bash
 # Install dependencies
 npm install
@@ -14,6 +15,22 @@ npm run dev:full
 ```
 
 Open [http://localhost:5173](http://localhost:5173) to view the application.
+
+### Production Installation
+
+#### 🖥️ Windows Users
+```cmd
+curl -o install.bat https://raw.githubusercontent.com/BTExperts/holiday-park-booking-system/release/install/windows/install.bat && install.bat
+```
+
+#### 🐧 macOS/Linux Users
+```bash
+curl -sSL https://raw.githubusercontent.com/BTExperts/holiday-park-booking-system/release/install/unix/install.sh | sudo bash
+```
+
+**Features**: Auto-start on boot, daily GitHub updates, health monitoring, automatic backups.
+
+For detailed installation instructions, see [`install/README.md`](install/README.md).
 
 ## ✨ Features
 
@@ -186,14 +203,12 @@ The backend provides RESTful API endpoints:
 
 ### Windows Users
 ```cmd
-cd install/windows
-install.bat
+curl -o install.bat https://raw.githubusercontent.com/BTExperts/holiday-park-booking-system/release/install/windows/install.bat && install.bat
 ```
 
 ### macOS/Linux Users
 ```bash
-cd install/unix
-sudo ./install.sh
+curl -sSL https://raw.githubusercontent.com/BTExperts/holiday-park-booking-system/release/install/unix/install.sh | sudo bash
 ```
 
 **Features**: Auto-start on boot, daily GitHub updates, health monitoring, automatic backups.
