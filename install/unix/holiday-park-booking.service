@@ -1,0 +1,49 @@
+[Unit]
+Description=Holiday Park Booking System
+Documentation=https://github.com/BTExperts/holiday-park-booking-system
+After=network.target network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=holiday-park-booking
+Group=holiday-park-booking
+WorkingDirectory=/opt/holiday-park-booking
+ExecStart=/usr/bin/node server/server.js
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=10
+StartLimitInterval=60s
+StartLimitBurst=3
+
+# Environment variables
+Environment=NODE_ENV=production
+Environment=PORT=3001
+Environment=DB_PATH=./server/data/bookings.db
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/holiday-park-booking/server/data
+ReadWritePaths=/opt/holiday-park-booking/server/db-backup
+ReadWritePaths=/opt/holiday-park-booking/server/AutoBackups
+ReadWritePaths=/opt/holiday-park-booking/logs
+
+# Resource limits
+LimitNOFILE=65536
+MemoryMax=1G
+CPUQuota=50%
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=holiday-park-booking
+
+# Health check
+ExecStartPost=/bin/sleep 5
+ExecStartPost=/bin/bash -c 'curl -f http://localhost:3001/api/data > /dev/null 2>&1 || exit 1'
+
+[Install]
+WantedBy=multi-user.target
